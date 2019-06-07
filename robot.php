@@ -1,193 +1,144 @@
 <?php
-//Entradas
-$array[][1] =   8;
-$array[][0] =   2;
-$array[]['M'] = 5;
-$array[]['R'] = 0;
-$array[]['M'] = 1;
-$array[]['L'] = 0;
-$array[]['M'] = 3;
-$array[]['L'] = 0;
-$array[]['L'] = 0;
-$array[]['M'] = 3;
 
-//Tamanho da Matriz
-$t = 10;
-
-for($i=$t; $i>=0; $i--){	
-	
-	for($j=0; $j<=$t; $j++){
-		
-		$x = $j;
-		$y = $i;
-		
-		$result = "[".str_pad($x, 2, "0", STR_PAD_LEFT).",".str_pad($y, 2, "0", STR_PAD_LEFT)."]";
-		
-
-		foreach($array as $key => $arr){
-			
-			foreach($arr as $k => $value){
-				
-				if(!is_string($k)){
-					
-					if($k == $x && $value == $y){
-						
-						
-						$obs[$x] = $y;
-						
-						
-						$result = '[X,X]';
-					
-					}
-					
-				}else{
-					
-				$MV[$key] = array($k=>$value);
-				
-				}
-				
-
-			}
-			
-		}
-
-				
-		echo $result;		
-
-	
-	}
-	
-	echo "<br>";
-}
-
-
-
-//print_r($MV);
-
-
-echo "<br><br><br>";
-
-
+//position X
 $x = 0;
 
+//position Y
 $y = 0;
 
+//direction
 $d = "N";
 
+//new direction
 $nd = $d;
 
-foreach($MV as $kr => $vr){
+/*
+ * reading the file
+ */
+$lines = file('directions.txt');
 
-	foreach($vr as $k => $v){
-		
-		if($k == 'M'){
-			echo "novo valor $d  $v ($x, $y) <br>";
-			switch ($d) {
-				case 'N':
-					$nv = $y + $v;					
-					for($y; $y<=$nv; $y++){			
-							foreach($obs as $key =>$value){
-								if($x == $key && $y == $value){					
-									echo "break <br>";
-									break 2; 
-								}
-							}
-					}
-					$y = $y-1;
-					$rx[] = $x;
-					$ry[] = $y;
-					echo "$x,$y <br>";
-				break;
-				case 'E':
-					$nv = $x + $v;
-					for($x; $x<=$nv; $x++){				
-							foreach($obs as $key =>$value){
-								if($x == $key && $y == $value){
-									echo "break <br>";
-									break 2;
-								}
-							}
-					}
-					$x = $x-1;
-					$rx[] = $x;
-					$ry[] = $y;
-					echo "$x,$y <br>";
-				break;
-				case 'S':
-					$nv = $y - $v;
-					for($y; $y>=$nv; $y--){	
-							foreach($obs as $key =>$value){
-								if($x == $key && $y == $value){
-									echo "break <br>";
-									break 2; 
-								}
-							}
-					}
-					$y = $y + 1;
-					$rx[] = $x;
-					$ry[] = $y;
-					echo "$x,$y <br>";
-				break;
-				case 'W':
-					$nv = $x - $v;
-					for($x; $x>=$nv; $x--){			
-							foreach($obs as $key =>$value){
-								if($x == $key && $y == $value){
-									echo "break <br>";
-									break 2; 
-								}
-							}
-					}
-					$x = $x +1;
-					$rx[] = $x;
-					$ry[] = $y;
-					echo "$x,$y <br>";
-				break;
-			}
-		}else{
-			if($k == 'R'){	
-				switch ($d) {
-					case 'N':
-						$nd = 'E';
-					break;
-					case 'E':
-						$nd = 'S';
-					break;
-					case 'S':
-						$nd = 'W';
-					break;
-					case 'W':
-						$nd = 'E';
-					break;
-				}
-			}
-			
-			if($k == 'L'){		
-				switch ($d) {
-					case 'N':
-						$nd = 'W';
-					break;
-					case 'E':
-						$nd = 'N';
-					break;
-					case 'S':
-						$nd = 'E';
-					break;
-					case 'W':
-						$nd = 'S';
-					break;
-				}
-			}
-			
-			$d = $nd;
-		
-		}
-	}
+foreach ($lines as $array) {
+    $arr = explode(' ', $array);
+    $k = trim($arr[0]);
+    $v = trim($arr[1]);
+    $cmdline[][$k] = $v;
+
 }
 
-array_multisort($rx, $ry);
+foreach ($cmdline as $key => $value) {
+    foreach ($value as $cmd => $pos) {
+        if (is_string($cmd)) {
+            $MV[][$cmd] = $pos; //movement
+        } else {
+            $obs[$cmd] = $pos; //obstacle
+        }
+    }
+}
 
+/*
+ * processing the rows
+ */
+foreach ($MV as $kr => $vr) {
+    foreach ($vr as $k => $v) {
+
+        if ($k == 'M') { //movement
+            switch ($d) {
+                case 'N':
+                    $nv = $y + $v;
+                    for ($y; $y <= $nv; $y++) {
+                        foreach ($obs as $key => $value) {
+                            if ($x == $key && $y == $value) {
+                                break 2;
+                            }
+                        }
+                    }
+                    $y = $y - 1;
+                    $rx[] = $x;
+                    $ry[] = $y;
+                    break;
+                case 'E':
+                    $nv = $x + $v;
+                    for ($x; $x <= $nv; $x++) {
+                        foreach ($obs as $key => $value) {
+                            if ($x == $key && $y == $value) {
+                                break 2;
+                            }
+                        }
+                    }
+                    $x = $x - 1;
+                    $rx[] = $x;
+                    $ry[] = $y;
+                    break;
+                case 'S':
+                    $nv = $y - $v;
+                    for ($y; $y >= $nv; $y--) {
+                        foreach ($obs as $key => $value) {
+                            if ($x == $key && $y == $value) {
+                                break 2;
+                            }
+                        }
+                    }
+                    $y = $y + 1;
+                    $rx[] = $x;
+                    $ry[] = $y;
+                    break;
+                case 'W':
+                    $nv = $x - $v;
+                    for ($x; $x >= $nv; $x--) {
+                        foreach ($obs as $key => $value) {
+                            if ($x == $key && $y == $value) {
+                                break 2;
+                            }
+                        }
+                    }
+                    $x = $x + 1;
+                    $rx[] = $x;
+                    $ry[] = $y;
+                    break;
+            }
+
+        } else { //rotation
+            if ($k == 'R') { //right
+                switch ($d) {
+                    case 'N':
+                        $nd = 'E';
+                        break;
+                    case 'E':
+                        $nd = 'S';
+                        break;
+                    case 'S':
+                        $nd = 'W';
+                        break;
+                    case 'W':
+                        $nd = 'N';
+                        break;
+                }
+            }
+
+            if ($k == 'L') { //left
+                switch ($d) {
+                    case 'N':
+                        $nd = 'W';
+                        break;
+                    case 'W':
+                        $nd = 'S';
+                        break;
+                    case 'S':
+                        $nd = 'E';
+                        break;
+                    case 'E':
+                        $nd = 'N';
+                        break;
+                }
+            }
+
+            $d = $nd;
+
+        }
+    }
+}
+array_multisort($rx, $ry);
 $rx = end($rx);
 $ry = end($ry);
-echo "maior distancia (".$rx.",".$ry.")";
-echo "<br> ultima posição: ($x,$y)";
+echo "<br> maximum distance it ever got from (0, 0) is (" . $rx . "," . $ry . ")";
+echo "<br> ending at: ($x,$y)";

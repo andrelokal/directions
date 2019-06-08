@@ -45,8 +45,6 @@ foreach ($MV as $kr => $vr) {
                         }
                     }
                     $y = $y - 1;
-                    $rx[] = $x;
-                    $ry[] = $y;
                     break;
                 case 'E':
                     $nv = $x + $v;
@@ -71,8 +69,6 @@ foreach ($MV as $kr => $vr) {
                         }
                     }
                     $y = $y + 1;
-                    $rx[] = $x;
-                    $ry[] = $y;
                     break;
                 case 'W':
                     $nv = $x - $v;
@@ -84,8 +80,6 @@ foreach ($MV as $kr => $vr) {
                         }
                     }
                     $x = $x + 1;
-                    $rx[] = $x;
-                    $ry[] = $y;
                     break;
             }
 

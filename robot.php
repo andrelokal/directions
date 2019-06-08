@@ -140,5 +140,8 @@ foreach ($MV as $kr => $vr) {
 array_multisort($rx, $ry);
 $rx = end($rx);
 $ry = end($ry);
+$unitDistance = sqrt((($rx - 0) * ($rx - 0)) + (($ry - 0) * ($ry - 0)));
+
 echo "<br> maximum distance it ever got from (0, 0) is (" . $rx . "," . $ry . ")";
 echo "<br> ending at: ($x,$y)";
+echo "<br>  roughly ".round($unitDistance,2)." units away ";

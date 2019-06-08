@@ -1,28 +1,21 @@
 <?php
-
 //position X
 $x = 0;
-
 //position Y
 $y = 0;
-
 //direction
 $d = "N";
-
 //new direction
 $nd = $d;
-
 /*
  * reading the file
  */
 $lines = file('directions.txt');
-
 foreach ($lines as $array) {
     $arr = explode(' ', $array);
     $k = trim($arr[0]);
     $v = trim($arr[1]);
     $cmdline[][$k] = $v;
-
 }
 
 foreach ($cmdline as $key => $value) {
@@ -40,7 +33,6 @@ foreach ($cmdline as $key => $value) {
  */
 foreach ($MV as $kr => $vr) {
     foreach ($vr as $k => $v) {
-
         if ($k == 'M') { //movement
             switch ($d) {
                 case 'N':
@@ -97,6 +89,10 @@ foreach ($MV as $kr => $vr) {
                     break;
             }
 
+            $tr[] = sqrt((($x - 0) * ($x - 0)) + (($y - 0) * ($y - 0)));
+            $tm[] = "($x,$y)";
+
+
         } else { //rotation
             if ($k == 'R') { //right
                 switch ($d) {
@@ -114,7 +110,6 @@ foreach ($MV as $kr => $vr) {
                         break;
                 }
             }
-
             if ($k == 'L') { //left
                 switch ($d) {
                     case 'N':
@@ -131,17 +126,14 @@ foreach ($MV as $kr => $vr) {
                         break;
                 }
             }
-
             $d = $nd;
-
         }
     }
 }
-array_multisort($rx, $ry);
-$rx = end($rx);
-$ry = end($ry);
-$unitDistance = sqrt((($rx - 0) * ($rx - 0)) + (($ry - 0) * ($ry - 0)));
 
-echo "<br> maximum distance it ever got from (0, 0) is (" . $rx . "," . $ry . ")";
+$unitDistance = max($tr);
+$key = array_search($unitDistance, $tr);
+
+echo "<br> maximum distance it ever got from (0, 0) is ".$tm[$key];
 echo "<br> ending at: ($x,$y)";
 echo "<br>  roughly ".round($unitDistance,2)." units away ";

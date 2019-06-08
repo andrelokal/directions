@@ -56,8 +56,6 @@ foreach ($MV as $kr => $vr) {
                         }
                     }
                     $x = $x - 1;
-                    $rx[] = $x;
-                    $ry[] = $y;
                     break;
                 case 'S':
                     $nv = $y - $v;

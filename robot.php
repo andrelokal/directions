@@ -40,7 +40,7 @@ foreach ($rows as $row) {
  * @param $arrayObs
  * @return bool
  */
-function searchObstacle($x, $y, $arrayObs)
+function search_obstacle($x, $y, $arrayObs)
 {
     foreach ($arrayObs as $key => $value) {
         if ($x == $key && $y == $value) {
@@ -60,7 +60,7 @@ foreach ($movements as $kr => $vr) {
                 case 'N':
                     $new_value = $y + $v;
                     for ($y; $y <= $new_value; $y++) {
-                        if (searchObstacle($x, $y, $obstacles)) {
+                        if (search_obstacle($x, $y, $obstacles)) {
                             break;
                         }
                     }
@@ -69,7 +69,7 @@ foreach ($movements as $kr => $vr) {
                 case 'E':
                     $new_value = $x + $v;
                     for ($x; $x <= $new_value; $x++) {
-                        if (searchObstacle($x, $y, $obstacles)) {
+                        if (search_obstacle($x, $y, $obstacles)) {
                             break;
                         }
                     }
@@ -78,7 +78,7 @@ foreach ($movements as $kr => $vr) {
                 case 'S':
                     $new_value = $y - $v;
                     for ($y; $y >= $new_value; $y--) {
-                        if (searchObstacle($x, $y, $obstacles)) {
+                        if (search_obstacle($x, $y, $obstacles)) {
                             break;
                         }
                     }
@@ -87,7 +87,7 @@ foreach ($movements as $kr => $vr) {
                 case 'W':
                     $new_value = $x - $v;
                     for ($x; $x >= $new_value; $x--) {
-                        if (searchObstacle($x, $y, $obstacles)) {
+                        if (search_obstacle($x, $y, $obstacles)) {
                             break;
                         }
                     }
@@ -133,8 +133,10 @@ foreach ($movements as $kr => $vr) {
         }
     }
 }
-$unitDistance = max($array_result);
-$key = array_search($unitDistance, $array_result);
-echo "<br> maximum distance it ever got from (0, 0) is " . $array_position[$key];
-echo "<br> ending at: ($x,$y)";
-echo "<br>  roughly " . round($unitDistance, 2) . " units away ";
+$unit_distance = max($array_result);
+$key = array_search($unit_distance, $array_result);
+echo "maximum distance it ever got from (0, 0) is " . $array_position[$key];
+echo "<br>";
+echo "ending at: ($x,$y)";
+echo "<br>";
+echo "roughly " . round($unit_distance, 2) . " units away ";

@@ -6,11 +6,11 @@ $x = 0;
 //position Y
 $y = 0;
 
-//direction
-$d = "N";
+//direction for the robot
+$direction = "N";
 
-//new direction
-$nd = $d;
+//new direction for the robot
+$new_direction = $direction;
 
 // robot movements
 $movements = array();
@@ -55,10 +55,10 @@ function searchObstacle($x, $y, $arrayObs)
 foreach ($movements as $kr => $vr) {
     foreach ($vr as $k => $v) {
         if ($k == 'M' && $v <= 10) { //movement
-            switch ($d) {
+            switch ($direction) {
                 case 'N':
-                    $nv = $y + $v;
-                    for ($y; $y <= $nv; $y++) {
+                    $new_value = $y + $v;
+                    for ($y; $y <= $new_value; $y++) {
                         if (searchObstacle($x, $y, $obstacles)) {
                             break;
                         }
@@ -66,8 +66,8 @@ foreach ($movements as $kr => $vr) {
                     $y = $y - 1;
                     break;
                 case 'E':
-                    $nv = $x + $v;
-                    for ($x; $x <= $nv; $x++) {
+                    $new_value = $x + $v;
+                    for ($x; $x <= $new_value; $x++) {
                         if (searchObstacle($x, $y, $obstacles)) {
                             break;
                         }
@@ -75,8 +75,8 @@ foreach ($movements as $kr => $vr) {
                     $x = $x - 1;
                     break;
                 case 'S':
-                    $nv = $y - $v;
-                    for ($y; $y >= $nv; $y--) {
+                    $new_value = $y - $v;
+                    for ($y; $y >= $new_value; $y--) {
                         if (searchObstacle($x, $y, $obstacles)) {
                             break;
                         }
@@ -84,8 +84,8 @@ foreach ($movements as $kr => $vr) {
                     $y = $y + 1;
                     break;
                 case 'W':
-                    $nv = $x - $v;
-                    for ($x; $x >= $nv; $x--) {
+                    $new_value = $x - $v;
+                    for ($x; $x >= $new_value; $x--) {
                         if (searchObstacle($x, $y, $obstacles)) {
                             break;
                         }
@@ -93,47 +93,47 @@ foreach ($movements as $kr => $vr) {
                     $x = $x + 1;
                     break;
             }
-            $tr[] = sqrt((($x - 0) * ($x - 0)) + (($y - 0) * ($y - 0)));
-            $tm[] = "($x,$y)";
+            $array_result[] = sqrt((($x - 0) * ($x - 0)) + (($y - 0) * ($y - 0)));
+            $array_position[] = "($x,$y)";
         } else { //rotation
             if ($k == 'R') { //right
-                switch ($d) {
+                switch ($direction) {
                     case 'N':
-                        $nd = 'E';
+                        $new_direction = 'E';
                         break;
                     case 'E':
-                        $nd = 'S';
+                        $new_direction = 'S';
                         break;
                     case 'S':
-                        $nd = 'W';
+                        $new_direction = 'W';
                         break;
                     case 'W':
-                        $nd = 'N';
+                        $new_direction = 'N';
                         break;
                 }
             }
             if ($k == 'L') { //left
-                switch ($d) {
+                switch ($direction) {
                     case 'N':
-                        $nd = 'W';
+                        $new_direction = 'W';
                         break;
                     case 'W':
-                        $nd = 'S';
+                        $new_direction = 'S';
                         break;
                     case 'S':
-                        $nd = 'E';
+                        $new_direction = 'E';
                         break;
                     case 'E':
-                        $nd = 'N';
+                        $new_direction = 'N';
                         break;
                 }
             }
-            $d = $nd;
+            $direction = $new_direction;
         }
     }
 }
-$unitDistance = max($tr);
-$key = array_search($unitDistance, $tr);
-echo "<br> maximum distance it ever got from (0, 0) is " . $tm[$key];
+$unitDistance = max($array_result);
+$key = array_search($unitDistance, $array_result);
+echo "<br> maximum distance it ever got from (0, 0) is " . $array_position[$key];
 echo "<br> ending at: ($x,$y)";
 echo "<br>  roughly " . round($unitDistance, 2) . " units away ";

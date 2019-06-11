@@ -15,6 +15,9 @@ $new_direction = $direction;
 // robot movements
 $movements = array();
 
+//obstacles on the way
+$obstacles = array();
+
 /*
  * reading the file directions
  */

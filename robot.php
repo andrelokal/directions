@@ -28,10 +28,8 @@ foreach ($rows as $row) {
     $v = trim($arr[1]);
     if (!preg_match('/^[0-9]*$/', $k) && count($movements) <= 10000) {
         $movements[][$k] = $v;
-    } else {
-        if (count($obstacles) <= 10) {
-            $obstacles[$k] = $v;
-        }
+    } elseif (count($obstacles) <= 10) {
+        $obstacles[$k] = $v;
     }
 
 }

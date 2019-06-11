@@ -32,7 +32,7 @@ foreach ($cmdline as $key => $value) {
  */
 foreach ($MV as $kr => $vr) {
     foreach ($vr as $k => $v) {
-        if ($k == 'M') { //movement
+        if ($k == 'M' && $v <= 10) { //movement
             switch ($d) {
                 case 'N':
                     $nv = $y + $v;

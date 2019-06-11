@@ -22,11 +22,29 @@ foreach ($cmdline as $key => $value) {
         if (is_string($cmd) && count($MV) <= 10000) {
             $MV[][$cmd] = $pos; //movement
         } else {
-            if(count($obs) <= 10)
+            if (count($obs) <= 10)
                 $obs[$cmd] = $pos; //obstacle
         }
     }
 }
+
+
+/**
+ * @param $x
+ * @param $y
+ * @param $arrayObs
+ * @return array|bool
+ */
+function searchObstacle($x, $y, $arrayObs)
+{
+    foreach ($arrayObs as $key => $value) {
+        if ($x == $key && $y == $value) {
+            return array($x, $y);
+        }
+    }
+    return false;
+}
+
 /*
  * processing the rows
  */
@@ -37,44 +55,32 @@ foreach ($MV as $kr => $vr) {
                 case 'N':
                     $nv = $y + $v;
                     for ($y; $y <= $nv; $y++) {
-                        foreach ($obs as $key => $value) {
-                            if ($x == $key && $y == $value) {
-                                break 2;
-                            }
-                        }
+                        if (searchObstacle($x, $y, $obs))
+                            break;
                     }
                     $y = $y - 1;
                     break;
                 case 'E':
                     $nv = $x + $v;
                     for ($x; $x <= $nv; $x++) {
-                        foreach ($obs as $key => $value) {
-                            if ($x == $key && $y == $value) {
-                                break 2;
-                            }
-                        }
+                        if (searchObstacle($x, $y, $obs))
+                            break;
                     }
                     $x = $x - 1;
                     break;
                 case 'S':
                     $nv = $y - $v;
                     for ($y; $y >= $nv; $y--) {
-                        foreach ($obs as $key => $value) {
-                            if ($x == $key && $y == $value) {
-                                break 2;
-                            }
-                        }
+                        if (searchObstacle($x, $y, $obs))
+                            break;
                     }
                     $y = $y + 1;
                     break;
                 case 'W':
                     $nv = $x - $v;
                     for ($x; $x >= $nv; $x--) {
-                        foreach ($obs as $key => $value) {
-                            if ($x == $key && $y == $value) {
-                                break 2;
-                            }
-                        }
+                        if (searchObstacle($x, $y, $obs))
+                            break;
                     }
                     $x = $x + 1;
                     break;
@@ -120,6 +126,6 @@ foreach ($MV as $kr => $vr) {
 }
 $unitDistance = max($tr);
 $key = array_search($unitDistance, $tr);
-echo "<br> maximum distance it ever got from (0, 0) is ".$tm[$key];
+echo "<br> maximum distance it ever got from (0, 0) is " . $tm[$key];
 echo "<br> ending at: ($x,$y)";
-echo "<br>  roughly ".round($unitDistance,2)." units away ";
+echo "<br>  roughly " . round($unitDistance, 2) . " units away ";

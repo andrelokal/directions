@@ -24,7 +24,6 @@ foreach ($rows as $row) {
     $k = trim($arr[0]);
     $v = trim($arr[1]);
     if (!preg_match('/^[0-9]*$/', $k) && count($movements) <= 10000) {
-        $c = count($movements);
         $movements[][$k] = $v;
     } else {
         if (count($obstacles) <= 10) {

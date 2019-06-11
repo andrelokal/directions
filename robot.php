@@ -33,13 +33,13 @@ foreach ($cmdline as $key => $value) {
  * @param $x
  * @param $y
  * @param $arrayObs
- * @return array|bool
+ * @return bool
  */
 function searchObstacle($x, $y, $arrayObs)
 {
     foreach ($arrayObs as $key => $value) {
         if ($x == $key && $y == $value) {
-            return array($x, $y);
+            return true;
         }
     }
     return false;

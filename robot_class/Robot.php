@@ -85,7 +85,7 @@ class Robot
     }
 
     /**
-     * @param $variable
+     * @param $unit
      */
     public function walkTo($unit)
     {

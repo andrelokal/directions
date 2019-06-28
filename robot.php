@@ -23,9 +23,14 @@ $obstacles = array();
  */
 $rows = file('directions.txt');
 foreach ($rows as $row) {
+
     $arr = explode(' ', $row);
+
     $k = trim($arr[0]);
-    $v = trim($arr[1]);
+
+    if(isset($arr[1]))
+        $v = trim($arr[1]);
+
     if (!preg_match('/^[0-9]*$/', $k) && count($movements) <= 10000) {
         $movements[][$k] = $v;
     } elseif (count($obstacles) <= 10) {
